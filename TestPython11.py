@@ -1,0 +1,1 @@
+Print("Oscar W er farveblind")
