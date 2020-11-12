@@ -15,7 +15,7 @@ class MainWindow():
 
 
     # -----------------------
-    def __init__(self, window):
+    def __init__(self, window): #, deep):
         window['bg'] = '#464646'
         #window['bg'] = '#6a6a6a'
 
@@ -90,14 +90,16 @@ class MainWindow():
 
 
     # Detect/Action 1-----------------
-    def detection1(self):
-        self.imgq1 = self.loadimgf(self.det3img)
+    def detection1(self, img1):
+        self.imgq1 = self.loadimgf(img1)
         self.canvas1.itemconfig(self.img_canv1, image = self.imgq1)
+        #deep.oscarpoop()
+
     # Detect/Action 2-----------------
-    def detection2(self):
-        self.imgq2 = self.loadimgf(self.det3img)
+    def detection2(self, img2):
+        self.imgq2 = self.loadimgf(img2)
         self.canvas2.itemconfig(self.img_canv2, image = self.imgq2)
     # Detect/Action 3-----------------
-    def detection3(self):
-        self.imgq3 = self.loadimgf(self.det3img)
+    def detection3(self, img3):
+        self.imgq3 = self.loadimgf(img3)
         self.canvas3.itemconfig(self.img_canv3, image = self.imgq3)
