@@ -17,6 +17,8 @@ import time
 from UIsetup import MainWindow
 from WatcherTest1 import FileWatcher
 
+from DLtester2 import DLObjectDetector
+
 ## - Main Loop -------------------------------------------------------------------------------
 #src_path = sys.argv[1] if len(sys.argv) > 1 else '.'
 
@@ -24,11 +26,14 @@ from WatcherTest1 import FileWatcher
 
 window = ThemedTk(theme="equilux")
 
-#deep = LoadDetection()
+
 
 rootwin = MainWindow(window) #, deep)
 
-watcher = FileWatcher(rootwin)
+deep = DLObjectDetector()
+
+watcher = FileWatcher(rootwin, deep)
+
 
 #FileWatcher.my
 
@@ -45,5 +50,5 @@ window.mainloop()
 
 
 
-
+#& "C:/Users/Anders Ormstrup/anaconda3/envs/gpuee/python.exe" "c:/Users/Anders Ormstrup/Documents/GitHub/Thesis-Space/MainPy.py"
 

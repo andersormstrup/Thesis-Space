@@ -13,6 +13,13 @@ class MainWindow():
         imgxre = imgx.resize((self.xwidth, self.yhight), Image.ANTIALIAS)
         return ImageTk.PhotoImage(imgxre)
 
+    # Load & Resize img funktion.
+    def loadimgf2(self, inputimg):
+        # imgx = Image.open(inputimg)
+        imgx = inputimg
+        imgxre = imgx.resize((self.xwidth, self.yhight), Image.ANTIALIAS)
+        return ImageTk.PhotoImage(imgxre)
+
 
     # -----------------------
     def __init__(self, window): #, deep):
@@ -21,9 +28,9 @@ class MainWindow():
 
 
         window.title('Vision Kontrol Linje 4')
-        window.geometry("700x600")
+        window.geometry("1300x600")
         #window.attributes('-fullscreen', True)
-        window.state('zoomed')
+        #window.state('zoomed')
         window.iconbitmap(r'veluxlogo.ico') # Window icon
 
         #StopKnap
@@ -77,7 +84,6 @@ class MainWindow():
         self.img_canv3 = self.canvas3.create_image(self.borderx, self.borderx, anchor = NW, image = self.photo3) #Set Image on Canvas 3.
 
 
-
         # Detect1 Knap
         self.button2 = ttk.Button(window, text='Detect1', width=20, command=self.detection1)
         self.button2.grid(row = 8, column = 1)
@@ -91,9 +97,10 @@ class MainWindow():
 
     # Detect/Action 1-----------------
     def detection1(self, img1):
-        self.imgq1 = self.loadimgf(img1)
+        self.imgq1 = self.loadimgf2(img1)
+        #self.imgq1 = img1
         self.canvas1.itemconfig(self.img_canv1, image = self.imgq1)
-        #deep.oscarpoop()
+        #deep
 
     # Detect/Action 2-----------------
     def detection2(self, img2):

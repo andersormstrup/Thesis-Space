@@ -5,7 +5,7 @@ from watchdog.events import PatternMatchingEventHandler
 
 class FileWatcher():
 
-    def __init__(self, rootwin):
+    def __init__(self, rootwin, deep):
         #if __name__ == "__main__":
         patterns = "*"
         ignore_patterns = ""
@@ -17,8 +17,14 @@ class FileWatcher():
 
 
         def on_created1(event):
-            rootwin.detection1(event.src_path)
-            print(f"hey, {event.src_path} has been created!")
+            start_time = time.time()
+            print(f"hey, {event.src_path} has been created! - Detection started")
+            detecimg = deep.DetectOnImage(event.src_path)
+            rootwin.detection1(detecimg)
+            print(f"hey, {event.src_path} has been created! - Detection ended")
+            end_time = time.time() 
+            print(end_time - start_time)
+
 
         def on_created2(event):
             rootwin.detection2(event.src_path)

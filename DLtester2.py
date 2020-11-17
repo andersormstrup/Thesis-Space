@@ -30,7 +30,11 @@ class DLObjectDetector():
 
         self.output_directory = 'C:/Users/Anders Ormstrup/Documents/GitHub/Thesis-Space'
         tf.keras.backend.clear_session()
+        # start_time4 = time.time()
+        # end_time4 = time.time() 
+        # print(end_time4 - start_time4)
         self.model = tf.saved_model.load('C:/Users/Anders Ormstrup/Documents/GitHub/Thesis-Space/object_detection/inference_graph/saved_model')
+
 
     def load_image_into_numpy_array(self, path):
         """Load an image from file into a numpy array.
@@ -42,22 +46,32 @@ class DLObjectDetector():
         Returns:
             uint8 numpy array with shape (img_height, img_width, 3)
         """
+        
+        #start_time2 = time.time()
         img_data = tf.io.gfile.GFile(path, 'rb').read()
         image = Image.open(BytesIO(img_data))
-        (im_width, im_height) = image.size
-        return np.array(image.getdata()).reshape(
-            (im_height, im_width, 3)).astype(np.uint8)
+        #= (image.getdata()).reshape((im_height, im_width, 3)).astype(np.uint8) - RESHAPING - NOT NEEDED
+        Np_array = np.array(image)
+        #end_time2 = time.time() 
+        #print(end_time2 - start_time2)
+        return Np_array
+        
+        
+
 
     def run_inference_for_single_image(self, image):
         image = np.asarray(image)
         # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
+
         input_tensor = tf.convert_to_tensor(image)
+
         # The model expects a batch of images, so add an axis with `tf.newaxis`.
         input_tensor = input_tensor[tf.newaxis,...]
 
         # Run inference
         model_fn = self.model.signatures['serving_default']
-        output_dict = model_fn(input_tensor)
+        output_dict = model_fn(input_tensor) # - DETECT ON IMAGE!!! - 1,3 SEC
+
 
         # All outputs are batches tensors.
         # Convert to numpy arrays, and take index [0] to remove the batch dimension.
@@ -79,14 +93,19 @@ class DLObjectDetector():
             detection_masks_reframed = tf.cast(detection_masks_reframed > 0.5,
                                             tf.uint8)
             output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
-        
         return output_dict
-
 
     #for image_path in glob.glob('C:/Users/Anders Ormstrup/Dropbox/Anders - UNI/Pre-Thesis VELUX/DEEPLEARNINGSTUFF/TestImg1/*.jpeg'):
     def DetectOnImage(self, image_path):
         image_np = self.load_image_into_numpy_array(image_path)
+        
+        start_time1 = time.time()
+        
         output_dict = self.run_inference_for_single_image(image_np)
+        
+        end_time1 = time.time() 
+        print(end_time1 - start_time1)
+
         vis_util.visualize_boxes_and_labels_on_image_array(
             image_np,
             output_dict['detection_boxes'],
@@ -96,8 +115,15 @@ class DLObjectDetector():
             instance_masks=output_dict.get('detection_masks_reframed', None),
             use_normalized_coordinates=True,
             line_thickness=8)
-        display(Image.fromarray(image_np))
-        plt.imshow(image_np)
-        plt.show()
+        #display(Image.fromarray(image_np))
+        #plt.imshow(image_np)
+        #plt.show()
+        imgt = Image.fromarray(image_np, 'RGB')
+
+        #imgt.save('test.png')
+        return imgt
+
+
+
 
 
