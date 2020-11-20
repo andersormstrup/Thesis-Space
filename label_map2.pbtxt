@@ -1,0 +1,16 @@
+item {
+    id: 1
+    name: 'Manual'
+}
+item {
+    id: 2
+    name: 'Skruepose'
+}
+item {
+    id: 3
+    name: 'Skotrende'
+}
+item {
+    id: 4
+    name: 'Kappe'
+}

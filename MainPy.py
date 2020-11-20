@@ -44,11 +44,9 @@ window.mainloop()
 
 
 ## - Execute procedure / Close Program:
-
 #window.destroy
-
-
 
 
 #& "C:/Users/Anders Ormstrup/anaconda3/envs/gpuee/python.exe" "c:/Users/Anders Ormstrup/Documents/GitHub/Thesis-Space/MainPy.py"
 
+#"python.pythonPath": "C:\\Users\\Ander\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",

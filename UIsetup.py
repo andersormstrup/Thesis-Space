@@ -28,7 +28,7 @@ class MainWindow():
 
 
         window.title('Vision Kontrol Linje 4')
-        window.geometry("1300x600")
+        window.geometry("1250x650")
         #window.attributes('-fullscreen', True)
         #window.state('zoomed')
         window.iconbitmap(r'veluxlogo.ico') # Window icon
@@ -44,9 +44,10 @@ class MainWindow():
         self.yhight = self.xwidth # Billede Højde
         self.borderx = 5 # Størrelse af Border omkring billeder
         self.Pad = 5 # Widget afstand i Grid.
-        self.PictureHeading = font.Font(size = 16)
+        self.PictureHeading = font.Font(size = 16) #Navne over 
+        self.ListHeadingFont = font.Font(size = 14) #Navne over 
 
-
+        
 
         ## billeder til indlæsning 
         self.image1 = ("22.jpeg")  
@@ -84,28 +85,55 @@ class MainWindow():
         self.img_canv3 = self.canvas3.create_image(self.borderx, self.borderx, anchor = NW, image = self.photo3) #Set Image on Canvas 3.
 
 
-        # Detect1 Knap
-        self.button2 = ttk.Button(window, text='Detect1', width=20, command=self.detection1)
-        self.button2.grid(row = 8, column = 1)
-        # Detect2 Knap
-        self.button3 = ttk.Button(window, text='Detect2', width=20, command=self.detection2)
-        self.button3.grid(row = 8, column = 2)
-        # Detect2 Knap
-        self.button4 = ttk.Button(window, text='Detect3', width=20, command=self.detection3)
-        self.button4.grid(row = 8, column = 3)
+
+        # # Detect1 Knap
+        # self.button2 = ttk.Button(window, text='Detect1', width=20, command=self.detection1)
+        # self.button2.grid(row = 8, column = 1)
+        # # Detect2 Knap
+        # self.button3 = ttk.Button(window, text='Detect2', width=20, command=self.detection2)
+        # self.button3.grid(row = 8, column = 2)
+        # # Detect2 Knap
+        # self.button4 = ttk.Button(window, text='Detect3', width=20, command=self.detection3)
+        # self.button4.grid(row = 8, column = 3)
+
+
+        #LISTBOX CAM 1
+        self.textq1 = ttk.Label(text='Classes fra Cam 1')
+        self.textq1['font'] = self.ListHeadingFont
+        self.textq1.grid(row = 3, column = 1, padx = self.Pad, pady = self.Pad)
+        self.list1 = Listbox(window)
+        self.list1.grid(row = 4, column = 1 , padx = self.Pad, pady = self.Pad)
+        #LISTBOX CAM 2        
+        self.textq2 = ttk.Label(text='Classes fra Cam 2')
+        self.textq2['font'] = self.ListHeadingFont
+        self.textq2.grid(row = 3, column = 2, padx = self.Pad, pady = self.Pad)
+        self.list2 = Listbox(window)
+        self.list2.grid(row = 4, column = 2 , padx = self.Pad, pady = self.Pad)
+        #LISTBOX CAM 3
+        self.textq3 = ttk.Label(text='Classes fra Cam 2')
+        self.textq3['font'] = self.ListHeadingFont
+        self.textq3.grid(row = 3, column = 3, padx = self.Pad, pady = self.Pad)
+        self.list3 = Listbox(window)
+        self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
 
 
     # Detect/Action 1-----------------
-    def detection1(self, img1):
-        self.imgq1 = self.loadimgf2(img1)
-        #self.imgq1 = img1
+    def detection1(self, img1, detClasses):
+        self.imgq1 = self.loadimgf2(img1) #2
         self.canvas1.itemconfig(self.img_canv1, image = self.imgq1)
-        #deep
+        self.list1.delete(0,END)
+        self.list1.insert(END, *detClasses)
 
     # Detect/Action 2-----------------
-    def detection2(self, img2):
-        self.imgq2 = self.loadimgf(img2)
+    def detection2(self, img2, detClasses):
+        self.imgq2 = self.loadimgf2(img2) #2
         self.canvas2.itemconfig(self.img_canv2, image = self.imgq2)
+        self.list2.delete(0,END)
+        self.list2.insert(END, *detClasses)
+
+
+
+
     # Detect/Action 3-----------------
     def detection3(self, img3):
         self.imgq3 = self.loadimgf(img3)
