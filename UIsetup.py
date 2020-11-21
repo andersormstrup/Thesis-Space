@@ -117,6 +117,18 @@ class MainWindow():
         self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
 
 
+        #DropDownMenu
+        self.drop11 = ttk.Label(text = 'Vælg Variant')
+        self.drop11['font']=self.ListHeadingFont
+        self.drop11.grid(row = 1, column = 4, padx = self.Pad, pady = self.Pad)
+
+        self.Muligheder = ["EDW","BDX","EZ100"] # load fra fil istedet!
+        self.varianter1 = StringVar(window)
+        self.varianter1.set(self.Muligheder[0])
+        self.drop1 = OptionMenu(window, self.varianter1, self.Muligheder)
+        self.drop1.grid(row = 2, column = 4, padx = self.Pad, pady = self.Pad)
+
+
     # Detect/Action 1-----------------
     def detection1(self, img1, detClasses):
         self.imgq1 = self.loadimgf2(img1) #2
