@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from tkinter import ttk
 from ttkthemes import ThemedTk
 import tkinter.font as font
+import pandas as pd
 
 class MainWindow():
 
@@ -117,16 +118,37 @@ class MainWindow():
         self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
 
 
+
+
+
         #DropDownMenu
         self.drop11 = ttk.Label(text = 'Vælg Variant')
         self.drop11['font']=self.ListHeadingFont
         self.drop11.grid(row = 1, column = 4, padx = self.Pad, pady = self.Pad)
-
-        self.Muligheder = ["EDW","BDX","EZ100"] # load fra fil istedet!
+        #self.Muligheder = ["EDJ FK06 2000", "EDJ MK04 0000", "EDJ MK06 0000", "EDJ MK06 2000"] # load fra fil istedet!
+        self.MulighederData = pd.read_excel(r'Varationmap.xlsx', header=None)
+        self.Muligheder = self.MulighederData[0].tolist()
         self.varianter1 = StringVar(window)
-        self.varianter1.set(self.Muligheder[0])
-        self.drop1 = OptionMenu(window, self.varianter1, self.Muligheder)
-        self.drop1.grid(row = 2, column = 4, padx = self.Pad, pady = self.Pad)
+        self.varianter1.set(self.Muligheder[3])
+        self.drop1 = ttk.OptionMenu(window, self.varianter1, *self.Muligheder, command = self.setVariant)
+        self.drop1.grid(row = 2, column = 4, padx = self.Pad, pady = self.Pad, sticky = N)
+
+        #KravLabels
+        self.kravtext1 = ttk.Label(text='krav til cam 1')
+        self.kravtext1['font'] = self.ListHeadingFont
+        self.kravtext1.grid(row = 5, column = 1, padx = self.Pad, pady = self.Pad)
+
+
+    def setVariant(self, typex):
+        index123 = self.Muligheder.index(typex)
+        self.Krav1 = self.MulighederData[1][index123].split(",")
+        self.kravtext1.config(text = self.Krav1)
+
+        
+        
+
+
+
 
 
     # Detect/Action 1-----------------
@@ -142,6 +164,23 @@ class MainWindow():
         self.canvas2.itemconfig(self.img_canv2, image = self.imgq2)
         self.list2.delete(0,END)
         self.list2.insert(END, *detClasses)
+
+        Err1 = False
+        MissingList = []
+        for krav in self.Krav1:
+            try:
+                detClasses.index(krav)
+                #print('Fandt korrekt krav ' + krav)
+            except:
+                MissingList.append(krav)
+                Err1 = True
+                #print('Fandt IKK ' + krav)
+        
+        if Err1:
+            print(MissingList)
+            print("STOOOPPPPPPP")
+            #DO error
+
 
 
 

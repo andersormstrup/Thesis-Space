@@ -214,6 +214,7 @@ class DLObjectDetector():
         for k in detClas:
             detClasses.append(self.category_index2[k]['name'])
         print(detClasses)
+        #print("detection DONE")
         #print(class_names)
         #imgt.save('test.png')
         return imgt, detClasses
