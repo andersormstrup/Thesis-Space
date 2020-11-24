@@ -19,12 +19,11 @@ class FileWatcher():
         def on_created1(event):
             #start_time = time.time()
             print(f"hey, {event.src_path} has been created! - Detection started")
-            detecimg, detClasses = deep.DetectOnImage(event.src_path)
-            rootwin.detection1(detecimg, detClasses)
+            detectimg, detClasses = deep.DetectOnImage(event.src_path)
+            rootwin.detection1(detectimg, detClasses)
             #print(f"hey, {event.src_path} has been created! - Detection ended")
             #end_time = time.time() 
             #print(end_time - start_time)
-
 
         def on_created2(event):
             detectimg, detClasses = deep.DetectOnImage2(event.src_path)
@@ -32,7 +31,8 @@ class FileWatcher():
             print(f"hey, {event.src_path} has been created!")
 
         def on_created3(event):
-            rootwin.detection3(event.src_path)
+            detectimg, detClasses = deep.DetectOnImage3(event.src_path)
+            rootwin.detection3(detectimg, detClasses)
             print(f"hey, {event.src_path} has been created!")
     
         # def on_deleted(event):

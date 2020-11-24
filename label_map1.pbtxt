@@ -10,3 +10,7 @@ item {
     id: 3
     name: 'Forkant'
 }
+item {
+    id: 4
+    name: 'Metal stykke'
+}

@@ -47,13 +47,13 @@ class MainWindow():
         self.Pad = 5 # Widget afstand i Grid.
         self.PictureHeading = font.Font(size = 16) #Navne over 
         self.ListHeadingFont = font.Font(size = 14) #Navne over 
-
+        self.listboxhojde = 6 #Højde på resultat-listbox'es
         
 
         ## billeder til indlæsning 
-        self.image1 = ("22.jpeg")  
-        self.image2 = ("22.jpeg")
-        self.image3 = ("22.jpeg")
+        self.image1 = ("ProgramLogo.jpg")  
+        self.image2 = ("ProgramLogo.jpg")
+        self.image3 = ("ProgramLogo.jpg")
 
         self.det3img = ("13.jpeg")
 
@@ -102,19 +102,19 @@ class MainWindow():
         self.textq1 = ttk.Label(text='Classes fra Cam 1')
         self.textq1['font'] = self.ListHeadingFont
         self.textq1.grid(row = 3, column = 1, padx = self.Pad, pady = self.Pad)
-        self.list1 = Listbox(window)
+        self.list1 = Listbox(window, height=self.listboxhojde)
         self.list1.grid(row = 4, column = 1 , padx = self.Pad, pady = self.Pad)
         #LISTBOX CAM 2        
         self.textq2 = ttk.Label(text='Classes fra Cam 2')
         self.textq2['font'] = self.ListHeadingFont
         self.textq2.grid(row = 3, column = 2, padx = self.Pad, pady = self.Pad)
-        self.list2 = Listbox(window)
+        self.list2 = Listbox(window, height=self.listboxhojde)
         self.list2.grid(row = 4, column = 2 , padx = self.Pad, pady = self.Pad)
         #LISTBOX CAM 3
         self.textq3 = ttk.Label(text='Classes fra Cam 2')
         self.textq3['font'] = self.ListHeadingFont
         self.textq3.grid(row = 3, column = 3, padx = self.Pad, pady = self.Pad)
-        self.list3 = Listbox(window)
+        self.list3 = Listbox(window, height=self.listboxhojde)
         self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
 
 
@@ -137,26 +137,54 @@ class MainWindow():
         self.kravtext1 = ttk.Label(text='krav til cam 1')
         self.kravtext1['font'] = self.ListHeadingFont
         self.kravtext1.grid(row = 5, column = 1, padx = self.Pad, pady = self.Pad)
+        self.kravtext2 = ttk.Label(text='krav til cam 1')
+        self.kravtext2['font'] = self.ListHeadingFont
+        self.kravtext2.grid(row = 5, column = 2, padx = self.Pad, pady = self.Pad)
+        self.kravtext3 = ttk.Label(text='krav til cam 1')
+        self.kravtext3['font'] = self.ListHeadingFont
+        self.kravtext3.grid(row = 5, column = 3, padx = self.Pad, pady = self.Pad)
 
 
     def setVariant(self, typex):
         index123 = self.Muligheder.index(typex)
         self.Krav1 = self.MulighederData[1][index123].split(",")
         self.kravtext1.config(text = self.Krav1)
+        self.Krav2 = self.MulighederData[2][index123].split(",")
+        self.kravtext2.config(text = self.Krav2)
+        self.Krav3 = self.MulighederData[3][index123].split(",")
+        self.kravtext3.config(text = self.Krav3)
 
-        
-        
-
-
-
-
-
+      
     # Detect/Action 1-----------------
     def detection1(self, img1, detClasses):
         self.imgq1 = self.loadimgf2(img1) #2
         self.canvas1.itemconfig(self.img_canv1, image = self.imgq1)
         self.list1.delete(0,END)
         self.list1.insert(END, *detClasses)
+
+        Err1 = False # Error state handler
+        MissingList = [] #Missing component list
+        self.list1['bg'] = '#009933'
+        for krav in self.Krav1: # Sammenligning af krav og fundne classes
+            try:
+                detClasses.index(krav) # Tjekker om det fundne findes i krav.
+                #print('Fandt korrekt krav ' + krav)
+            except: # Case handler til fejlmelding.
+                MissingList.append('MANGLER:')
+                MissingList.append(krav)
+                Err1 = True
+                #print('Fandt IKK ' + krav)
+        
+        if Err1: #Action on Error/missing Components.
+            print(MissingList)
+            print("STOP")
+            #self.kravtext1['background'] = '#cc0000'
+            self.list1['bg'] = '#cc0000'
+            self.list1.insert(END, *MissingList)
+
+
+
+
 
     # Detect/Action 2-----------------
     def detection2(self, img2, detClasses):
@@ -165,27 +193,50 @@ class MainWindow():
         self.list2.delete(0,END)
         self.list2.insert(END, *detClasses)
 
-        Err1 = False
-        MissingList = []
-        for krav in self.Krav1:
+        Err1 = False # Error state handler
+        MissingList = [] #Missing component list
+        self.list2['bg'] = '#009933'
+        for krav in self.Krav2: # Sammenligning af krav og fundne classes
             try:
-                detClasses.index(krav)
+                detClasses.index(krav) # Tjekker om det fundne findes i krav.
                 #print('Fandt korrekt krav ' + krav)
-            except:
+            except: # Case handler til fejlmelding.
+                MissingList.append('MANGLER:')
                 MissingList.append(krav)
                 Err1 = True
                 #print('Fandt IKK ' + krav)
         
-        if Err1:
+        if Err1: #Action on Error/missing Components.
             print(MissingList)
-            print("STOOOPPPPPPP")
-            #DO error
-
-
-
+            print("STOP")
+            #self.kravtext1['background'] = '#cc0000'
+            self.list2['bg'] = '#cc0000'
+            self.list2.insert(END, *MissingList)
 
 
     # Detect/Action 3-----------------
-    def detection3(self, img3):
-        self.imgq3 = self.loadimgf(img3)
+    def detection3(self, img3, detClasses):
+        self.imgq3 = self.loadimgf2(img3)
         self.canvas3.itemconfig(self.img_canv3, image = self.imgq3)
+        self.list3.delete(0,END)
+        self.list3.insert(END, *detClasses)
+
+        Err1 = False # Error state handler
+        MissingList = [] #Missing component list
+        self.list3['bg'] = '#009933'
+        for krav in self.Krav3: # Sammenligning af krav og fundne classes
+            try:
+                detClasses.index(krav) # Tjekker om det fundne findes i krav.
+                #print('Fandt korrekt krav ' + krav)
+            except: # Case handler til fejlmelding.
+                MissingList.append('MANGLER:')
+                MissingList.append(krav)
+                Err1 = True
+                #print('Fandt IKK ' + krav)
+        
+        if Err1: #Action on Error/missing Components.
+            print(MissingList)
+            print("STOP")
+            #self.kravtext1['background'] = '#cc0000'
+            self.list3['bg'] = '#cc0000'
+            self.list3.insert(END, *MissingList)
