@@ -5,6 +5,8 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 import tkinter.font as font
 import pandas as pd
+import os
+from shutil import copyfile
 
 class MainWindow():
 
@@ -40,15 +42,20 @@ class MainWindow():
 
 
 
-        # - Settings
-        self.xwidth = 320 # Billede Bredde  Ratio = 1:1 
+        # - Settings -------------
+        self.xwidth = 550 # Billede Bredde  Ratio = 1:1 
         self.yhight = self.xwidth # Billede Højde
         self.borderx = 5 # Størrelse af Border omkring billeder
         self.Pad = 5 # Widget afstand i Grid.
         self.PictureHeading = font.Font(size = 16) #Navne over 
         self.ListHeadingFont = font.Font(size = 14) #Navne over 
         self.listboxhojde = 6 #Højde på resultat-listbox'es
-        
+        # VarionsDatabase
+        self.MapName = r'Varationmap.xlsx'
+        # - Reject MappeNavne
+        self.reje1 = r'Reject1'
+        self.reje2 = r'Reject2'
+        self.reje3 = r'Reject3'
 
         ## billeder til indlæsning 
         self.image1 = ("ProgramLogo.jpg")  
@@ -118,15 +125,12 @@ class MainWindow():
         self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
 
 
-
-
-
         #DropDownMenu
         self.drop11 = ttk.Label(text = 'Vælg Variant')
         self.drop11['font']=self.ListHeadingFont
         self.drop11.grid(row = 1, column = 4, padx = self.Pad, pady = self.Pad)
         #self.Muligheder = ["EDJ FK06 2000", "EDJ MK04 0000", "EDJ MK06 0000", "EDJ MK06 2000"] # load fra fil istedet!
-        self.MulighederData = pd.read_excel(r'Varationmap.xlsx', header=None)
+        self.MulighederData = pd.read_excel(self.MapName, header=None)
         self.Muligheder = self.MulighederData[0].tolist()
         self.varianter1 = StringVar(window)
         self.varianter1.set(self.Muligheder[3])
@@ -154,9 +158,22 @@ class MainWindow():
         self.Krav3 = self.MulighederData[3][index123].split(",")
         self.kravtext3.config(text = self.Krav3)
 
-      
+    def SaveReje(self, img, path1, path2):
+        Basepath = os.path.dirname(os.path.realpath(__file__)) #Få basepath i for program
+        pathtosave = os.path.join(Basepath, path2) #Vælg undermappe til rejected img.
+        head, tail = os.path.split(path1) # Split original, for at få filnavn. 
+        name, ext = os.path.splitext(tail) # Split filnavnt for at tilføje til box img.
+        newname = name + r'BOX' + ext # Til føj string i filnavn, så box img har anden navn.
+        pathtocopyname = os.path.join(pathtosave, tail) #Navn på original, med box og ny sti.
+        pathtosavename = os.path.join(pathtosave, newname) #Nyt navn på Originalen
+        copyfile(path1, pathtocopyname) #Kopier originalen
+        bil = img # img holder
+        bil.save(pathtosavename) # gem boxed image.
+
+
+
     # Detect/Action 1-----------------
-    def detection1(self, img1, detClasses):
+    def detection1(self, img1, detClasses, path):
         self.imgq1 = self.loadimgf2(img1) #2
         self.canvas1.itemconfig(self.img_canv1, image = self.imgq1)
         self.list1.delete(0,END)
@@ -181,13 +198,10 @@ class MainWindow():
             #self.kravtext1['background'] = '#cc0000'
             self.list1['bg'] = '#cc0000'
             self.list1.insert(END, *MissingList)
-
-
-
-
+            self.SaveReje(img1, path, self.reje1)
 
     # Detect/Action 2-----------------
-    def detection2(self, img2, detClasses):
+    def detection2(self, img2, detClasses, path):
         self.imgq2 = self.loadimgf2(img2) #2
         self.canvas2.itemconfig(self.img_canv2, image = self.imgq2)
         self.list2.delete(0,END)
@@ -212,10 +226,11 @@ class MainWindow():
             #self.kravtext1['background'] = '#cc0000'
             self.list2['bg'] = '#cc0000'
             self.list2.insert(END, *MissingList)
+            self.SaveReje(img2, path, self.reje2)
 
 
     # Detect/Action 3-----------------
-    def detection3(self, img3, detClasses):
+    def detection3(self, img3, detClasses, path):
         self.imgq3 = self.loadimgf2(img3)
         self.canvas3.itemconfig(self.img_canv3, image = self.imgq3)
         self.list3.delete(0,END)
@@ -240,3 +255,4 @@ class MainWindow():
             #self.kravtext1['background'] = '#cc0000'
             self.list3['bg'] = '#cc0000'
             self.list3.insert(END, *MissingList)
+            self.SaveReje(img3, path, self.reje3)

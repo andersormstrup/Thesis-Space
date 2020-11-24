@@ -14,3 +14,15 @@ item {
     id: 4
     name: 'Kappen'
 }
+item {
+    id: 5
+    name: 'Underkarm'
+}
+item {
+    id: 6
+    name: 'Skumkarm'
+}
+item {
+    id: 7
+    name: 'Fugebaend'
+}
