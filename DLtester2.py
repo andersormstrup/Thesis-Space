@@ -196,7 +196,7 @@ class DLObjectDetector():
         
         end_time1 = time.time() 
         print(end_time1 - start_time1)
-
+        
         vis_util.visualize_boxes_and_labels_on_image_array(
             image_np,
             output_dict['detection_boxes'],

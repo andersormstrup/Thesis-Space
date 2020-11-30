@@ -17,30 +17,35 @@ class FileWatcher():
 
 
         def on_created1(event):
-            #start_time = time.time()
-            print(f"hey, {event.src_path} has been created! - Detection started")
-            detectimg, detClasses = deep.DetectOnImage(event.src_path)
-            rootwin.detection1(detectimg, detClasses, event.src_path)
-            #print(f"hey, {event.src_path} has been created! - Detection ended")
-            #end_time = time.time() 
-            #print(end_time - start_time)
+            start_time = time.time()
+            print(f"Oprettet {event.src_path} has been created! - Detection started")
+            rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started")
+            detectimg, detClasses = deep.DetectOnImage(event.src_path) # DETECTION
+            rootwin.detection1(detectimg, detClasses, event.src_path)  # GUI UPDATE and Approval
+            end_time = time.time() 
+            print(end_time - start_time)
+            rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")
+
 
         def on_created2(event):
+            start_time = time.time()
+            print(f"Oprettet {event.src_path} has been created! - Detection started")
+            rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started")
             detectimg, detClasses = deep.DetectOnImage2(event.src_path)
             rootwin.detection2(detectimg, detClasses, event.src_path)
-            print(f"hey, {event.src_path} has been created!")
-            # testpath1 = str(event.src_path)
-            # testpath2 = str(path2)
-            # print(testpath2)
+            end_time = time.time()
+            rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")
+            
 
-            # if testpath2 in testpath1:
-            #     testpath1.replace(testpath2,'')
-            #     print(testpath1)
 
         def on_created3(event):
+            start_time = time.time()
+            print(f"Oprettet {event.src_path} has been created! - Detection started")
+            rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started")
             detectimg, detClasses = deep.DetectOnImage3(event.src_path)
             rootwin.detection3(detectimg, detClasses, event.src_path)
-            print(f"hey, {event.src_path} has been created!")
+            end_time = time.time()
+            rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")            
     
         # def on_deleted(event):
         #     print(f"what the f**k! Someone deleted {event.src_path}!")
@@ -61,9 +66,9 @@ class FileWatcher():
         # my_event_handler.on_moved = on_moved
 
         basepath = os.path.dirname(os.path.realpath(__file__))
-        path1 = os.path.join(basepath, 'FTP1')
-        path2 = os.path.join(basepath, 'FTP2')
-        path3 = os.path.join(basepath, 'FTP3')
+        path1 = os.path.join(basepath, 'FTPBilleder1')
+        path2 = os.path.join(basepath, 'FTPBilleder2')
+        path3 = os.path.join(basepath, 'FTPBilleder3')
         
 
         go_recursively = True

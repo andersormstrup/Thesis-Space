@@ -7,6 +7,7 @@ import tkinter.font as font
 import pandas as pd
 import os
 from shutil import copyfile
+import subprocess as sub
 
 class MainWindow():
 
@@ -40,10 +41,13 @@ class MainWindow():
         self.button1 = ttk.Button(window, text='Stop', width=25, command=window.destroy)  # Opret knap i root.
         self.button1.grid(row = 8, column = 8, sticky = S)            # Placering af knap. 
 
+        #Prompt Output
+        #prom = sub.Popen('./MainPy.py',stdout=sub.PIPE,stderr=sub.PIPE)
+        #output, errors = prom.communicate()
 
 
         # - Settings -------------
-        self.xwidth = 550 # Billede Bredde  Ratio = 1:1 
+        self.xwidth = 350 # Billede Bredde  Ratio = 1:1 
         self.yhight = self.xwidth # Billede Højde
         self.borderx = 5 # Størrelse af Border omkring billeder
         self.Pad = 5 # Widget afstand i Grid.
@@ -58,9 +62,9 @@ class MainWindow():
         self.reje3 = r'Reject3'
 
         ## billeder til indlæsning 
-        self.image1 = ("ProgramLogo.jpg")  
-        self.image2 = ("ProgramLogo.jpg")
-        self.image3 = ("ProgramLogo.jpg")
+        self.image1 = ("ProgramLogo2.jpg")  
+        self.image2 = ("ProgramLogo2.jpg")
+        self.image3 = ("ProgramLogo2.jpg")
 
         self.det3img = ("13.jpeg")
 
@@ -123,19 +127,26 @@ class MainWindow():
         self.textq3.grid(row = 3, column = 3, padx = self.Pad, pady = self.Pad)
         self.list3 = Listbox(window, height=self.listboxhojde)
         self.list3.grid(row = 4, column = 3 , padx = self.Pad, pady = self.Pad)
+        #CommandLISTBOX 4
+        #self.textq4 = ttk.Label(text='Classes fra Cam 2')
+        #self.textq4['font'] = self.ListHeadingFont
+        #self.textq4.grid(row = 3, column = 3, padx = self.Pad, pady = self.Pad)
+        self.list4 = Listbox(window, height=4)
+        self.list4.grid(row = 6, rowspan = 2, column = 1, columnspan = 2, padx = self.Pad, pady = self.Pad, sticky = NSEW)
+        #self.list4.insert(END, *output)
 
 
         #DropDownMenu
         self.drop11 = ttk.Label(text = 'Vælg Variant')
         self.drop11['font']=self.ListHeadingFont
-        self.drop11.grid(row = 1, column = 4, padx = self.Pad, pady = self.Pad)
+        self.drop11.grid(row = 6, column = 3, padx = self.Pad, pady = self.Pad)
         #self.Muligheder = ["EDJ FK06 2000", "EDJ MK04 0000", "EDJ MK06 0000", "EDJ MK06 2000"] # load fra fil istedet!
         self.MulighederData = pd.read_excel(self.MapName, header=None)
         self.Muligheder = self.MulighederData[0].tolist()
         self.varianter1 = StringVar(window)
-        self.varianter1.set(self.Muligheder[3])
         self.drop1 = ttk.OptionMenu(window, self.varianter1, *self.Muligheder, command = self.setVariant)
-        self.drop1.grid(row = 2, column = 4, padx = self.Pad, pady = self.Pad, sticky = N)
+        #self.varianter1.set(self.Muligheder[2])
+        self.drop1.grid(row = 7, column = 3, padx = self.Pad, pady = self.Pad, sticky = N)
 
         #KravLabels
         self.kravtext1 = ttk.Label(text='krav til cam 1')
@@ -148,7 +159,10 @@ class MainWindow():
         self.kravtext3['font'] = self.ListHeadingFont
         self.kravtext3.grid(row = 5, column = 3, padx = self.Pad, pady = self.Pad)
 
-
+        self.Krav1 = []
+        self.Krav2 = []
+        self.Krav3 = []
+    
     def setVariant(self, typex):
         index123 = self.Muligheder.index(typex)
         self.Krav1 = self.MulighederData[1][index123].split(",")
@@ -170,7 +184,11 @@ class MainWindow():
         bil = img # img holder
         bil.save(pathtosavename) # gem boxed image.
 
-
+    def OutUpdate(self, toprint):
+        if int(self.list4.size()) > 40:
+            self.list4.delete(0,END)
+        self.list4.insert(END, toprint)
+        self.list4.see("end")
 
     # Detect/Action 1-----------------
     def detection1(self, img1, detClasses, path):
