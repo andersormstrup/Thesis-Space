@@ -34,12 +34,12 @@ class MainWindow():
         window.title('Vision Kontrol Linje 4')
         window.geometry("1250x650")
         #window.attributes('-fullscreen', True)
-        #window.state('zoomed')
+        window.state('zoomed')
         window.iconbitmap(r'veluxlogo.ico') # Window icon
 
         #StopKnap
         self.button1 = ttk.Button(window, text='Stop', width=25, command=window.destroy)  # Opret knap i root.
-        self.button1.grid(row = 8, column = 8, sticky = S)            # Placering af knap. 
+        self.button1.grid(row = 1, column = 3, sticky = E)            # Placering af knap. 
 
         #Prompt Output
         #prom = sub.Popen('./MainPy.py',stdout=sub.PIPE,stderr=sub.PIPE)
@@ -47,7 +47,7 @@ class MainWindow():
 
 
         # - Settings -------------
-        self.xwidth = 350 # Billede Bredde  Ratio = 1:1 
+        self.xwidth = 500 # Billede Bredde  Ratio = 1:1 
         self.yhight = self.xwidth # Billede Højde
         self.borderx = 5 # Størrelse af Border omkring billeder
         self.Pad = 5 # Widget afstand i Grid.
@@ -66,7 +66,7 @@ class MainWindow():
         self.image2 = ("ProgramLogo2.jpg")
         self.image3 = ("ProgramLogo2.jpg")
 
-        self.det3img = ("13.jpeg")
+        #self.det3img = ("13.jpeg")
 
 
 
@@ -122,7 +122,7 @@ class MainWindow():
         self.list2 = Listbox(window, height=self.listboxhojde)
         self.list2.grid(row = 4, column = 2 , padx = self.Pad, pady = self.Pad)
         #LISTBOX CAM 3
-        self.textq3 = ttk.Label(text='Classes fra Cam 2')
+        self.textq3 = ttk.Label(text='Classes fra Cam 3')
         self.textq3['font'] = self.ListHeadingFont
         self.textq3.grid(row = 3, column = 3, padx = self.Pad, pady = self.Pad)
         self.list3 = Listbox(window, height=self.listboxhojde)
@@ -146,16 +146,16 @@ class MainWindow():
         self.varianter1 = StringVar(window)
         self.drop1 = ttk.OptionMenu(window, self.varianter1, *self.Muligheder, command = self.setVariant)
         #self.varianter1.set(self.Muligheder[2])
-        self.drop1.grid(row = 7, column = 3, padx = self.Pad, pady = self.Pad, sticky = N)
+        self.drop1.grid(row = 7, column = 3, padx = self.Pad, pady = self.Pad, sticky = NSEW)
 
         #KravLabels
         self.kravtext1 = ttk.Label(text='krav til cam 1')
         self.kravtext1['font'] = self.ListHeadingFont
         self.kravtext1.grid(row = 5, column = 1, padx = self.Pad, pady = self.Pad)
-        self.kravtext2 = ttk.Label(text='krav til cam 1')
+        self.kravtext2 = ttk.Label(text='krav til cam 2')
         self.kravtext2['font'] = self.ListHeadingFont
         self.kravtext2.grid(row = 5, column = 2, padx = self.Pad, pady = self.Pad)
-        self.kravtext3 = ttk.Label(text='krav til cam 1')
+        self.kravtext3 = ttk.Label(text='krav til cam 3')
         self.kravtext3['font'] = self.ListHeadingFont
         self.kravtext3.grid(row = 5, column = 3, padx = self.Pad, pady = self.Pad)
 
