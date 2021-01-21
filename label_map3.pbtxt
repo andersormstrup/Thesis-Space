@@ -1,0 +1,20 @@
+item {
+    id: 1
+    name: 'BDX kasse'
+}
+item {
+    id: 2
+    name: 'Sidekarm'
+}
+item {
+    id: 3
+    name: 'Sidestykke'
+}
+item {
+    id: 4
+    name: 'Underkarm'
+}
+item {
+    id: 5
+    name: 'Skumside'
+}

@@ -1,4 +1,14 @@
 # Comments
 object_detection/
+.ipynb_checkpoints/
 .vscode/
 __pycache__/
+Reject1/
+Reject2/
+Reject3/
+FTP1/
+FTP2/
+FTP3/
+FTPBilleder1/
+FTPBilleder2/
+FTPBilleder3/
