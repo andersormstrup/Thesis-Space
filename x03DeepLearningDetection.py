@@ -104,14 +104,36 @@ class DLObjectDetector():
         imgt = Image.fromarray(image_np, 'RGB')
         # Get detected classes as strings FOR UI display.
         classes = output_dict['detection_classes']
+        boxxes = output_dict['detection_boxes']
         indexes = np.where(output_dict['detection_scores']>0.5) 
         for i in indexes:
-            detClas = classes[i]  
+            detClas = classes[i]
+            detboxxes = boxxes[i]
+        cam1Factor = 0.103 # cm pr pixel. 
+        #cam2Factor = 0.113 # cm pr pixel. 
+        #cam3Factor = 0.0977 # cm pr pixel. 
+        boxpp = detboxxes*2048*cam1Factor
+        lenx = boxpp[:,3] - boxpp[:,1]
+        leny = boxpp[:,2] - boxpp[:,0]
         detClasses = []
+        sizeString = []
+        #sizeString2 = []
         for k in detClas:
             detClasses.append(self.category_index[k]['name'])
         print(detClasses)
-        return imgt, detClasses
+        if len(detboxxes) > 0:
+            for j in range(0, len(detboxxes)):
+                sizeString.append('--')
+                sizeString.append(detClasses[j]) 
+                sizeString.append('Bredde:')
+                sizeString.append(round(lenx[j])) #
+                sizeString.append('cm')
+                sizeString.append('Højde:')
+                sizeString.append(round(leny[j]))
+                sizeString.append('cm')
+        print(boxpp)
+        print(sizeString)
+        return imgt, detClasses, sizeString
 
     # Detect Function on image for MODEL 2.
     def run_inference_for_single_image2(self, image):
@@ -155,14 +177,36 @@ class DLObjectDetector():
         imgt = Image.fromarray(image_np, 'RGB') #To show in GUI canvas.
         # Get detected classes as strings FOR UI display.    
         classes = output_dict['detection_classes']
+        boxxes = output_dict['detection_boxes']
         indexes = np.where(output_dict['detection_scores']>0.5)
         for i in indexes:
-            detClas = classes[i]  
+            detClas = classes[i]
+            detboxxes = boxxes[i]
+        #cam1Factor = 0.103 # cm pr pixel. 
+        cam2Factor = 0.113 # cm pr pixel. 
+        #cam3Factor = 0.0977 # cm pr pixel. 
+        boxpp = detboxxes*2048*cam2Factor
+        lenx = boxpp[:,3] - boxpp[:,1]
+        leny = boxpp[:,2] - boxpp[:,0]
         detClasses = []
+        sizeString = []
+        #sizeString2 = []
         for k in detClas:
             detClasses.append(self.category_index2[k]['name'])
         print(detClasses)
-        return imgt, detClasses
+        if len(detboxxes) > 0:
+            for j in range(0, len(detboxxes)):
+                sizeString.append('--')
+                sizeString.append(detClasses[j]) 
+                sizeString.append('Bredde:')
+                sizeString.append(round(lenx[j])) #
+                sizeString.append('cm')
+                sizeString.append('Højde:')
+                sizeString.append(round(leny[j]))
+                sizeString.append('cm')
+        print(boxpp)
+        print(sizeString)
+        return imgt, detClasses, sizeString
 
     # Detect Function on image for MODEL 3.
     def run_inference_for_single_image3(self, image):
@@ -207,15 +251,33 @@ class DLObjectDetector():
         imgt = Image.fromarray(image_np, 'RGB') #To show in GUI canvas.
         # Get detected classes as strings FOR UI display.    
         classes = output_dict['detection_classes']
-        indexes = np.where(output_dict['detection_scores']>0.5)
+        boxxes = output_dict['detection_boxes']
+        indexes = np.where(output_dict['detection_scores']>0.5)        
         for i in indexes:
-            detClas = classes[i]  
+            detClas = classes[i]
+            detboxxes = boxxes[i]
+        #cam1Factor = 0.103 # cm pr pixel. 
+        #cam2Factor = 0.113 # cm pr pixel. 
+        cam3Factor = 0.0977 # cm pr pixel. 
+        boxpp = detboxxes*2048*cam3Factor
+        lenx = boxpp[:,3] - boxpp[:,1]
+        leny = boxpp[:,2] - boxpp[:,0]
         detClasses = []
+        sizeString = []
+        #sizeString2 = []
         for k in detClas:
             detClasses.append(self.category_index3[k]['name'])
         print(detClasses)
-        return imgt, detClasses
-
-
-
-
+        if len(detboxxes) > 0:
+            for j in range(0, len(detboxxes)):
+                sizeString.append('--')
+                sizeString.append(detClasses[j]) 
+                sizeString.append('Bredde:')
+                sizeString.append(round(lenx[j])) #
+                sizeString.append('cm')
+                sizeString.append('Højde:')
+                sizeString.append(round(leny[j]))
+                sizeString.append('cm')
+        print(boxpp)
+        print(sizeString)
+        return imgt, detClasses, sizeString

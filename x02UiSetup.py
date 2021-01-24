@@ -152,7 +152,7 @@ class MainWindow():
 
     # Update function for program Output.
     def OutUpdate(self, toprint):
-        if int(self.list4.size()) > 40:
+        if int(self.list4.size()) > 80:
             self.list4.delete(0,END)
         self.list4.insert(END, toprint)
         self.list4.see("end")

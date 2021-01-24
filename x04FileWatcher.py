@@ -26,11 +26,12 @@ class FileWatcher():
             print(f"Oprettet {event.src_path} has been created! - Detection started")
             rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started") # Update output.
             # Passing filename and calling detection event from DL script, getting image and classes.
-            detectimg, detClasses = deep.DetectOnImage(event.src_path)
+            detectimg, detClasses, sizeString = deep.DetectOnImage(event.src_path)
             # Pass image and classes for UI presentation and reject/accept function.
             rootwin.detection1(detectimg, detClasses, event.src_path)
             end_time = time.time()          # Stop timer and print elapsed time.
             rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")
+            rootwin.OutUpdate(sizeString)
 
         # Event for Camera 2.
         def on_created2(event):
@@ -39,11 +40,12 @@ class FileWatcher():
             print(f"Oprettet {event.src_path} has been created! - Detection started")
             rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started") # Update output.
             # Passing filename and calling detection event from DL script, getting image and classes.
-            detectimg, detClasses = deep.DetectOnImage2(event.src_path)
+            detectimg, detClasses, sizeString = deep.DetectOnImage2(event.src_path)
             # Pass image and classes for UI presentation and reject/accept function.
             rootwin.detection2(detectimg, detClasses, event.src_path)
             end_time = time.time()          # Stop timer and print elapsed time.
             rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")
+            rootwin.OutUpdate(sizeString)
 
         # Event for Camera 3.
         def on_created3(event):
@@ -52,11 +54,12 @@ class FileWatcher():
             print(f"Oprettet {event.src_path} has been created! - Detection started")
             rootwin.OutUpdate(f"Oprettet {event.src_path} - Detection started") # Update output.
             # Passing filename and calling detection event from DL script, getting image and classes.
-            detectimg, detClasses = deep.DetectOnImage3(event.src_path)
+            detectimg, detClasses, sizeString = deep.DetectOnImage3(event.src_path)
             # Pass image and classes for UI presentation and reject/accept function.
             rootwin.detection3(detectimg, detClasses, event.src_path)
             end_time = time.time()          # Stop timer and print elapsed time.
-            rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")            
+            rootwin.OutUpdate(f"Behandlingstid: {end_time - start_time:.4f} sek")
+            rootwin.OutUpdate(sizeString)        
 
         # On create event function callers.
         my_event_handler1.on_created = on_created1
